@@ -19,14 +19,27 @@ app.use(express.json());
 // ✅ Proper CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",  // Development (Local)
-  "https://newsmania-five.vercel.app" // Production (Vercel)
+  "https://newsmania-git-main-aasthas-projects-52cfcb27.vercel.app" // Production (Vercel)
 ];
+
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy",
+    "default-src 'self'; " +
+    "font-src 'self' https://newsmania-backend.onrender.com https://fonts.gstatic.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval';"
+  );
+  next();
+});
+
+
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("Blocked by CORS:", origin); // Debugging log
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -34,6 +47,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 app.get('/api/ip-location', async (req, res) => {
   try {
       const response = await axios.get('https://ipapi.co/json/');
@@ -82,7 +96,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/bookmarks', require('./routes/bookmarkRoutes'));
 app.use("/api/youtube", youtubeRoutes);
 app.use("/api/polls", pollRoutes);
-app.use("/api/news", newsRoutes);
+app.use("/api/geonews", newsRoutes);
 // ✅ Schedule Poll Generation (Every 30 minutes)
 schedulePolls();
 
