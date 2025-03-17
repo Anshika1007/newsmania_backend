@@ -17,10 +17,22 @@ const app = express();
 app.use(express.json());
 
 // ✅ Proper CORS Configuration
+const allowedOrigins = [
+  "http://localhost:5173",  // Development (Local)
+  "https://newsmania-five.vercel.app" // Production (Vercel)
+];
+
 app.use(cors({
-  origin: "http://localhost:5173", // Allow frontend origin
-  methods: ["GET", "POST", "PATCH", "DELETE"], // ✅ Add PATCH here
-  allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 app.get('/api/ip-location', async (req, res) => {
   try {
