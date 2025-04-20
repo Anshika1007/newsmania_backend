@@ -3,13 +3,13 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
-const authRoutes = require("./routes/authRoutes");
-const youtubeRoutes = require("./routes/youtubeRoutes");
-const pollRoutes = require("./routes/pollRoutes");
-const { schedulePolls } = require("./controllers/pollController");
+const authRoutes = require("../routes/authRoutes");
+const youtubeRoutes = require("../routes/youtubeRoutes");
+const pollRoutes = require("../routes/pollRoutes");
+const { schedulePolls } = require("../controllers/pollController");
 const cron = require("node-cron");
-const { deleteOldPolls } = require("./controllers/pollController");
-const newsRoutes = require("./routes/geoRoutes");
+const { deleteOldPolls } = require("../controllers/pollController");
+const newsRoutes = require("../routes/geoRoutes");
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ app.use(express.json());
 // ✅ Proper CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",  // Development (Local)
-  "https://newsmania-git-main-aasthas-projects-52cfcb27.vercel.app" // Production (Vercel)
+  // Production (Vercel)
 ];
 
 app.use((req, res, next) => {
@@ -92,8 +92,8 @@ mongoose
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
 // ✅ Authentication Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/bookmarks', require('./routes/bookmarkRoutes'));
+app.use('/api/auth', require('../routes/authRoutes'));
+app.use('/api/bookmarks', require('../routes/bookmarkRoutes'));
 app.use("/api/youtube", youtubeRoutes);
 app.use("/api/polls", pollRoutes);
 app.use("/api/geonews", newsRoutes);
