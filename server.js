@@ -19,6 +19,8 @@ app.use(express.json());
 // ✅ Proper CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",  // Development (Local)
+  "https://newsmania-bykp6xamx-aasthas-projects-52cfcb27.vercel.app",
+  "https://newsmania-peach.vercel.app",
   // Production (Vercel)
 ];
 
