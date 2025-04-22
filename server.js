@@ -3,14 +3,14 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
-const authRoutes = require("../routes/authRoutes");
-const youtubeRoutes = require("../routes/youtubeRoutes");
-const pollRoutes = require("../routes/pollRoutes");
-const { schedulePolls } = require("../controllers/pollController");
+const authRoutes = require("./routes/authRoutes");
+const youtubeRoutes = require("./routes/youtubeRoutes");
+const pollRoutes = require("./routes/pollRoutes");
+const { schedulePolls } = require("./controllers/pollController");
 const cron = require("node-cron");
-const { deleteOldPolls } = require("../controllers/pollController");
-const newsRoutes = require("../routes/geoRoutes");
-
+const { deleteOldPolls } = require("./controllers/pollController");
+const newsRoutes = require("./routes/geoRoutes");
+const bookmarkRoutes=require("./routes/bookmarkRoutes")
 dotenv.config();
 
 const app = express();
@@ -92,8 +92,8 @@ mongoose
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
 // ✅ Authentication Routes
-app.use('/api/auth', require('../routes/authRoutes'));
-app.use('/api/bookmarks', require('../routes/bookmarkRoutes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/bookmarks',bookmarkRoutes );
 app.use("/api/youtube", youtubeRoutes);
 app.use("/api/polls", pollRoutes);
 app.use("/api/geonews", newsRoutes);
